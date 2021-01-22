@@ -1,0 +1,30 @@
+{
+  "name": "haorm",
+  "version": "0.0.1",
+  "description": "一个学习向工程，为了学习Node.js和ORM框架原理。Node.js下的ORM框架，帮助用户处理数据库。支持一二级缓存、读写分离。避免SQL注入、快速生成SQL语句，同时允许自定义SQL。",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "npm run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AhaoHe/haorm.git"
+  },
+  "keywords": [
+    "orm",
+    "sql"
+  ],
+  "author": "heminghao(ahaohe@foxmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/AhaoHe/haorm/issues"
+  },
+  "homepage": "https://github.com/AhaoHe/haorm#readme",
+  "dependencies": {
+    "mysql2": "^2.2.5",
+    "sqlstring": "^2.3.2"
+  }
+}
