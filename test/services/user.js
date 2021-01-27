@@ -2,6 +2,7 @@ const { sqlOperation } = require('../config')
 const userModel = require('../models/user')
 const groupModel = require('../models/group')
 const { Wrapper } = require('../../lib')
+const { count, insert } = require('../models/user')
 module.exports = {
   select: async function() {
     let user = sqlOperation.openSession('user');
@@ -19,16 +20,16 @@ module.exports = {
     let b = await user.findById(1);
     let c = await user.findAll({page:[0,5]});
     let d = await user.findAll({
-      count:[{key:'id',tag:'count'}],
+      fields:['id','name',['count',{key:'id',tag:'count'}]],
       join:[{
           link : 'left',
           model : sqlOperation.getModel('user'),
-          select:['id','name'],
+          fields:['id','name',['count',{key:'id',tag:'count1'}]],
           conditions:{
               join:[{
                   link : 'left',
                   model : sqlOperation.getModel('user'),
-                  select:['id','name'],
+                  fields:['id','name'],
                   conditions:{
                       where:{
                           id : { value : 1 , symbol : '='}
@@ -49,7 +50,7 @@ module.exports = {
         },{
           link : 'left',
           model : sqlOperation.getModel('group'),
-          select:['id','name'],
+          fields:['id','name'],
           on : {
               'id' : { targetKey : 'id' , symbol : '='}
           }
@@ -80,6 +81,26 @@ module.exports = {
     let c = await user.commit({type:'READ'});
     let d = await user.findOne({where:[ {key:'id' ,symbol:'=' , value:30} ]},['id','password']);
     return {c,d}
+  },
+
+  update: async function() {
+    let user = sqlOperation.openSession('user');
+    let d = await user.update({
+      mail:'ttt@qq.com',
+    },{
+      where:[ {key:'id' ,symbol:'=' , value:30} ]
+    });
+    return d;
+  },
+
+  insert: async function() {
+    let user = sqlOperation.openSession('user');
+    let d = await user.insert({
+      name:'ttt',
+      password:'ttt',
+      mail:'ttt@qq.com',
+    });
+    return d;
   }
 
 }

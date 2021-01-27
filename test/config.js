@@ -1,4 +1,4 @@
-const { SqlOperation } = require('../lib/index')
+const { Haorm } = require('../lib/index')
 
 // const MYSQL_CONFIG = {
 //     host     : 'localhost', // 可以是本地地址，也可以设置成远程地址
@@ -46,6 +46,6 @@ const MYSQL_CONFIG = {
     }
 }
 
-const sqlOperation = new SqlOperation('mysql',MYSQL_CONFIG,{timeout:4000});
+const sqlOperation = new Haorm('mysql',MYSQL_CONFIG,{timeout:4000});
 module.exports.default = sqlOperation
 module.exports = { sqlOperation }

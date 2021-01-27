@@ -15,11 +15,12 @@ const User =  {
         password : {
             fieldName : 'u_passwd',
             value : 'string',
-            ignore:[/* QueryTypes.SELECT,QueryTypes.UPDATE, */QueryTypes.INSERT]
+            ignore:[QueryTypes.UPDATE]
         },
         mail : {
             fieldName : 'u_mail',
-            value : 'string'
+            value : 'string',
+            ignore:[QueryTypes.INSERT]
         }
     },
     cache: true
