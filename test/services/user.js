@@ -16,7 +16,7 @@ module.exports = {
           id:{value:'1',symbol:'>'},
         }]
       }
-    });
+    },{timeout:2000});
     let b = await user.findById(1);
     let c = await user.findAll({page:[0,5]});
     let d = await user.findAll({
@@ -29,7 +29,7 @@ module.exports = {
               join:[{
                   link : 'left',
                   model : sqlOperation.getModel('user'),
-                  fields:['id','name'],
+                  //fields:['id','name'],
                   conditions:{
                       where:{
                           id : { value : 1 , symbol : '='}
@@ -44,25 +44,30 @@ module.exports = {
               },
           },
           on : {
-              'id' : { targetKey : 'id' , symbol : '='},
+              'id' : { targetKey : 'id' , symbol : '=',value:'1'},
               'name' : { value : 'a' , symbol : '!='},
           }
         },{
           link : 'left',
           model : sqlOperation.getModel('group'),
-          fields:['id','name'],
-          on : {
+          //fields:['id','name'],
+          on : [ {key: 'id' , targetKey : 'id' , symbol : '='}]/* {
               'id' : { targetKey : 'id' , symbol : '='}
-          }
+          }, */
       }],
       group:[['id',0]]
     });
     let e = await user.findOne({where:[ {key:'id' ,symbol:'=' , value:'30'} ]},['id','password']);
     
-    let group = sqlOperation.openSession('group');
-    let f = await group.findAll();
+
+    let count = await user.findAndCountAll({page:[0,2]});
     
-    return {a,b,c,d,e,f}
+    let group = sqlOperation.openSession('group');
+    let f = await group.findAll({where:{id:1}});
+    
+    let noc = await group.findList('WHERE id = 1');
+
+    return {a,b,c,d,e,f,count,noc}
   },
 
   wrapper:async function() {
@@ -90,7 +95,10 @@ module.exports = {
     },{
       where:[ {key:'id' ,symbol:'=' , value:30} ]
     });
-    return d;
+    user.changeModel('group');
+    let e = await user.saveOrUpdate({id:2,name:'TEST'});
+    let c = await user.update({name:'TEST'},'WHERE id = 2')
+    return {d,e,c};
   },
 
   insert: async function() {
@@ -100,6 +108,12 @@ module.exports = {
       password:'ttt',
       mail:'ttt@qq.com',
     });
+    return d;
+  },
+
+  deleteFun:async function() {
+    let group = sqlOperation.openSession('group');
+    let d = await group.deleteById([2,3]);
     return d;
   }
 
