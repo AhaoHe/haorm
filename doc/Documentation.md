@@ -18,7 +18,7 @@
 
 ​    \- [模型管理器（重要）](#模型管理器（重要）)
 
-​    \- ~~[验证 & 约束](#验证--约束)~~
+​    \- [验证 & 约束](#验证--约束)
 
   \- [4.数据库操作（基础）](#4数据库操作（基础）)
 
@@ -189,7 +189,16 @@ const user = haorm.define('user'/*标签，用于模型管理*/,{
         },
         name : {
             fieldName : 'u_login',
-            value : 'string'
+            value : 'string',
+            validate:{//【可选】验证，参考验证 & 约束的章节
+            	not:'ttt',
+            	//自定义方法
+            	notTTT(val){
+            		if(val == 'ttt'){
+            			throw new Error('validate error!');
+            		}
+            	}
+            }
         },
         password : {
             fieldName : 'u_passwd',
@@ -255,17 +264,48 @@ const user = haorm.define('user'/*标签，用于模型管理*/,{
   cosnt result = session.commit();//结果按照顺序排列
   ```
 
-### ~~验证 & 约束~~
+### 验证 & 约束
 
-未来版本考虑（**暂未设计和实现**）
+在[创建模型](#初始化实体类)的时候，使用`validate`参数即可使用。
 
 ```
 mail:{
 	fieldName : 'u_mail',
-    validate:{
-    	notNull: true, 	 //不能为空
-    	is: /^[a-z]+$/i, // 匹配这个 RegExp
+  validate:{
+    is: /^[a-z]+$/i,          // 匹配这个 RegExp
+    is: ["^[a-z]+$",'i'],     // 与上面相同,但是以字符串构造 RegExp
+    not: /^[a-z]+$/i,         // 不匹配 RegExp
+    not: ["^[a-z]+$",'i'],    // 与上面相同,但是以字符串构造 RegExp
+    isInt: true,              // 检查有效的整数
+    isFloat: true,            // 检查有效的浮点数
+    isLowercase: true,        // 检查小写
+    isUppercase: true,        // 检查大写
+    notNull: true,            // 不允许为空
+    isNull: true,             // 只允许为空
+    notEmpty: true,           // 不允许空字符串
+    contains: 'foo',          // 强制特定子字符串
+    notIn: ['foo', 'bar'],    // 检查值不是这些之一
+    isIn: ['foo', 'bar'],     // 检查值是其中之一
+    notContains: 'bar',       // 不允许特定的子字符串
+    len: [2,10],              // 仅允许长度在2到10之间的值,第二个小于0时表示最大长度无限。
+    isDate: true,             // 只允许日期字符串
+    max: 23,                  // 仅允许值 <= 23
+    min: 23,                  // 仅允许值 >= 23
+
+    // 自定义验证器的示例:
+    nottt(val){
+      if(val == 'ttt'){
+          throw new Error('test is success!');
+      }
     }
+
+    DivideBy2(value) {
+      if (parseInt(value) % 2 !== 0) {
+        throw new Error('can't divide by two!');
+      }
+    }
+
+  }
 }
 ```
 

@@ -2,6 +2,12 @@ const { select,wrapper,transaction,update,insert,deleteFun } = require('./servic
 
 let selectTest = async ()=>{
     try{
+        console.time("测试 select 速度: ")
+        //let time = new Date().getTime();
+        for(let i = 0;i<100;i++)
+            await select();
+        //console.log("测试 select 速度: "+ (new Date().getTime() - time)) 
+        console.timeEnd("测试 select 速度: ")
         let result = await select();
         return result;
     }catch(e){
@@ -55,9 +61,10 @@ let deleteTest = async ()=>{
     }
     return '';
 }
-console.log(selectTest());
+for(let i = 0;i<1;i++)
+    selectTest();
 // console.log(wrapperTest());
 // console.log(transactionTest());
-console.log(updateTest());
+//console.log(updateTest());
 // console.log(insertTest());
 // console.log(deleteTest());

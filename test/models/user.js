@@ -6,11 +6,20 @@ const User =  {
         id : {
             fieldName : 'id',
             value : 'number',
-            primarykey: true
+            primarykey: true,
         },
         name : {
             fieldName : 'u_login',
-            value : 'string'
+            value : 'string',
+            validate:{
+                len: [1,-1],
+                is: /^[0-9]+$/i,
+                // nottt(val){
+                //     if(val == 'ttt'){
+                //         throw new Error('test is success!');
+                //     }
+                // }
+            }
         },
         password : {
             fieldName : 'u_passwd',
