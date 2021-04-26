@@ -46,6 +46,11 @@ const MYSQL_CONFIG = {
     }
 }
 
-const sqlOperation = new Haorm('mysql',MYSQL_CONFIG,{timeout:4000});
+const sqlOperation = new Haorm('mysql',MYSQL_CONFIG,{
+                                        timeout:4000,
+                                        logging: (info,type)=>{
+                                            console.log(type,info)
+                                        }
+                                    });
 module.exports.default = sqlOperation
 module.exports = { sqlOperation }
