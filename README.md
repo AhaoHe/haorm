@@ -222,9 +222,17 @@ const user = haorm.define('user'/*标签，用于模型管理*/,{
             value : 'string'
         }
     },
-    cache: true //该模型是否使用二级缓存
+    cache: {
+      enable: true, //是否启动二级缓存,若开启必填
+      type: 'FIFO',  //选择二级缓存算法，类型参考下方
+                    //不填默认LIRS算法
+      size: 200 //该模型下二级缓存池的大小
+                //不填默认100
+    } //该模型是否使用二级缓存，不存在cache不启动二级缓存   
 })
 ```
+
+**二级缓存算法：**FIFO、LRU、LIRS
 
 ### 模型管理器（重要）
 

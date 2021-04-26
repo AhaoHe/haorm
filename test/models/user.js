@@ -32,7 +32,11 @@ const User =  {
             ignore:[QueryTypes.INSERT]
         }
     },
-    cache: true
+    cache: {
+        enable: true,
+        //size: 200,
+        //type:'LIRS'
+    }
 }
 
 //返回ORM生成的类
